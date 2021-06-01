@@ -49,8 +49,8 @@ export class QrcodeComponent implements OnInit {
       ratio: undefined,
       fill: '#333333',
       back: '#ffffff',
-      text: `https://cbiprobiled.com/${serialnumber}`,
-      // text: `https://osramindonesia.com/${serialnumber}`,
+      text: `https://osram-1.vercel.app/${serialnumber}`,
+      // text: `https://cbiprobiled.com/${serialnumber}`,
       rounded: 0,
       quiet: 5,
       mode: 'labelimage',
@@ -72,11 +72,9 @@ export class QrcodeComponent implements OnInit {
     this.apiService.getAllPembeli().subscribe(
       (res: any) => {
         const data = res.data;
-        console.log(data[0]);
         // tslint:disable-next-line:prefer-for-of
         for (let i = 0; i < data.length; i++) {
-          delete data[i]._id;
-          this.excel.push(this.flattenObject(data[i]));
+          this.excel.push(this.flatten(data[i]));
         }
 
         console.log(this.excel);
@@ -89,6 +87,35 @@ export class QrcodeComponent implements OnInit {
 
     this.getAllunprinted();
     this.createForm();
+  }
+
+  flatten(data: any, response: any = {}, flatKey = '', onlyLastKey = false): void {
+    for (const [key, value] of Object.entries(data)) {
+      let newFlatKey: any;
+      // tslint:disable-next-line:radix
+      if (!isNaN(parseInt(key)) && flatKey.includes('[]')) {
+        newFlatKey = (flatKey.charAt(flatKey.length - 1) === '.' ? flatKey.slice(0, -1) : flatKey) + `[${key}]`;
+      } else if (!flatKey.includes('.') && flatKey.length > 0) {
+        newFlatKey = `${flatKey}.${key}`;
+      } else {
+        newFlatKey = `${flatKey}${key}`;
+      }
+      if (typeof value === 'object' && value !== null && Object.keys(value).length > 0) {
+        this.flatten(value, response, `${newFlatKey}.`, onlyLastKey);
+      } else {
+        if (onlyLastKey) {
+          newFlatKey = newFlatKey.split('.').pop();
+        }
+        if (Array.isArray(response)) {
+          response.push({
+            [newFlatKey.replace('[]', '')]: value
+          });
+        } else {
+          response[newFlatKey.replace('[]', '')] = value;
+        }
+      }
+    }
+    return response;
   }
 
   flattenObject(obj: any): any {
