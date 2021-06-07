@@ -83,7 +83,8 @@ export class ApiService {
         merk_mobil: string,
         // tslint:disable-next-line:variable-name
         no_invoice: string,
-        deskripsi: string
+        deskripsi: string,
+        instagram: string
     ): Observable<any[]> {
         let pembeliData: Pembeli;
         pembeliData = {
@@ -91,13 +92,15 @@ export class ApiService {
             nomor_polisi,
             merk_mobil,
             no_invoice,
-            deskripsi
+            deskripsi,
+            instagram
         };
 
         return this.http
             .post<any>(`${environment.baseUrl}pembeli/${idqrcode}`, pembeliData);
     }
 
+    // image
     updatePembeliImage(idqrcode: string, image: File): Observable<HttpEvent<any>> {
         const formData: FormData = new FormData();
         formData.append('image', image);
@@ -108,14 +111,69 @@ export class ApiService {
         return this.http.request(req);
     }
 
+
+
+    updatePembeliImage1(idqrcode: string, image: any): any {
+        const formData: FormData = new FormData();
+        formData.append('image', image);
+        const req = new HttpRequest('POST', `${environment.baseUrl}pembeli/image1/${idqrcode}`, formData, {
+            reportProgress: true,
+            responseType: 'json'
+        });
+        return this.http.request(req);
+    }
+    updatePembeliImage2(idqrcode: string, image: any): any {
+        const formData: FormData = new FormData();
+        formData.append('image', image);
+        const req = new HttpRequest('POST', `${environment.baseUrl}pembeli/image2/${idqrcode}`, formData, {
+            reportProgress: true,
+            responseType: 'json'
+        });
+        return this.http.request(req);
+    }
+    updatePembeliImage3(idqrcode: string, image: any): any {
+        const formData: FormData = new FormData();
+        formData.append('image', image);
+        const req = new HttpRequest('POST', `${environment.baseUrl}pembeli/image3/${idqrcode}`, formData, {
+            reportProgress: true,
+            responseType: 'json'
+        });
+        return this.http.request(req);
+    }
+    updatePembeliImage4(idqrcode: string, image: any): any {
+        const formData: FormData = new FormData();
+        formData.append('image', image);
+        const req = new HttpRequest('POST', `${environment.baseUrl}pembeli/image4/${idqrcode}`, formData, {
+            reportProgress: true,
+            responseType: 'json'
+        });
+        return this.http.request(req);
+    }
+    updatePembeliImage5(idqrcode: string, image: any): any {
+        const formData: FormData = new FormData();
+        formData.append('image', image);
+        const req = new HttpRequest('POST', `${environment.baseUrl}pembeli/image5/${idqrcode}`, formData, {
+            reportProgress: true,
+            responseType: 'json'
+        });
+        return this.http.request(req);
+    }
+    updatePembeliImage6(idqrcode: string, image: any): any {
+        const formData: FormData = new FormData();
+        formData.append('image', image);
+        const req = new HttpRequest('POST', `${environment.baseUrl}pembeli/image6/${idqrcode}`, formData, {
+            reportProgress: true,
+            responseType: 'json'
+        });
+        return this.http.request(req);
+    }
+
     getPembeliImage(idqrcode: string): Observable<any> {
         return this.http.get(`${environment.baseUrl}pembeli/image/${idqrcode}`);
     }
 
-    // updatePembeliImage(idqrcode: string, image: any): any {
-    //     return this.http
-    //         .post<any>(`${environment.baseUrl}pembeli/image/${idqrcode}`, image);
-    // }
+
+    // video
     updatePembeliVideo(idqrcode: string, video: any): Observable<HttpEvent<any>> {
         const formData: FormData = new FormData();
         formData.append('video', video);
@@ -128,6 +186,7 @@ export class ApiService {
     getPembeliVideo(idqrcode: string): Observable<any> {
         return this.http.get(`${environment.baseUrl}pembeli/video/${idqrcode}`);
     }
+
     // updatePembeliVideo(idqrcode: string, video: any): Observable<any[]> {
     //     return this.http
     //         .post<any>(`${environment.baseUrl}pembeli/video/${idqrcode}`, video);

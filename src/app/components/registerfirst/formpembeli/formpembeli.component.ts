@@ -23,7 +23,12 @@ export class FormpembeliComponent implements OnInit {
 
   pembeliForm!: FormGroup;
 
-  imgFile = '';
+  imgFile1 = '';
+  imgFile2 = '';
+  imgFile3 = '';
+  imgFile4 = '';
+  imgFile5 = '';
+  imgFile6 = '';
   imgData: any;
   choosenimg = false;
 
@@ -126,30 +131,17 @@ export class FormpembeliComponent implements OnInit {
       deskripsi: [''],
       image: ['', { validators: Validators.required, asyncValidators: [mimeType] }],
       video: [''],
+      instagram: [''],
     });
   }
 
-  // mutiple files
-  onImageChange(event: any): void {
-    this.message = [];
-    this.progressInfos = [];
-    this.selectedFiles = event.target.files;
-    this.uploadImages();
-  }
+  // mutiple files====================================================
   onVideoChange(event: any): void {
+    this.isLoading = true;
     this.messageVideo = [];
     this.progressInfosVideo = [];
     this.selectedVideoFiles = event.target.files;
     this.uploadVideos();
-  }
-  uploadImages(): void {
-    this.message = [];
-
-    if (this.selectedFiles) {
-      for (let i = 0; i < this.selectedFiles.length; i++) {
-        this.onSubmitImage(i, this.selectedFiles[i]);
-      }
-    }
   }
   uploadVideos(): void {
     this.messageVideo = [];
@@ -160,38 +152,6 @@ export class FormpembeliComponent implements OnInit {
       }
     }
   }
-  onSubmitImage(idx: number, file: File): void {
-    this.progressInfos[idx] = { value: 0, fileName: file.name };
-
-    if (file) {
-      this.apiService.updatePembeliImage(this.idqrcode, file).subscribe(
-        (event: any) => {
-          if (event.type === HttpEventType.UploadProgress) {
-            this.progressInfos[idx].value = Math.round(100 * event.loaded / event.total);
-          } else if (event instanceof HttpResponse) {
-            this.isLoading = false;
-            Swal.fire({
-              text: 'Foto berhasil di upload!',
-              confirmButtonText: `Kembali`,
-            })
-              .then((_) => {
-              });
-          }
-        },
-        (err: any) => {
-          this.progressInfos[idx].value = 0;
-          this.isLoading = false;
-          Swal.fire({
-            icon: 'error',
-            title: 'Terjadi Kesalahan',
-            text: 'Silahkan upload ulang.',
-            confirmButtonText: `Kembali`,
-          }).then((_) => {
-          });
-        });
-    }
-  }
-
   onSubmitVideo(idx: number, file: File): void {
     this.progressInfosVideo[idx] = { value: 0, fileName: file.name };
 
@@ -227,51 +187,344 @@ export class FormpembeliComponent implements OnInit {
     }
   }
 
-  // onImageChange(event: any): void {
-  //   const reader = new FileReader();
-  //   if (event.target.value) {
-  //     const [file] = event.target.files;
-  //     reader.readAsDataURL(file);
-  //     reader.onload = () => {
-  //       this.imgFile = reader.result as string;
-  //     };
-  //     this.imgData = (event.target.files[0] as File);
-  //     this.choosenimg = true;
-  //   }
 
-  //   this.onSubmitImage();
-  // }
+  // single File ========================================
+  onImageChange1(event: any): void {
+    this.isLoading = true;
+    this.message = [];
+    this.progressInfos = [];
+    this.selectedFiles = event.target.files;
+    const reader = new FileReader();
+    if (event.target.value) {
+      const [file] = event.target.files;
+      reader.readAsDataURL(file);
+      reader.onload = () => {
+        this.imgFile1 = reader.result as string;
+      };
+    }
 
-  // onSubmitImage(): void {
-  //   this.isLoading = true;
-  //   const fd = new FormData();
-  //   if (this.imgData) {
-  //     fd.append('image', this.imgData, this.imgData.name);
-  //     this.apiService.updatePembeliImage(this.idqrcode, fd)
-  //       .subscribe(
-  //         (res: any) => {
-  //           this.isLoading = false;
-  //           Swal.fire({
-  //             text: 'Foto berhasil di upload!',
-  //             confirmButtonText: `Kembali`,
-  //           })
-  //             .then((_) => {
-  //             });
-  //         },
-  //         () => {
-  //           this.isLoading = false;
-  //           Swal.fire({
-  //             icon: 'error',
-  //             title: 'Terjadi Kesalahan',
-  //             text: 'Silahkan upload ulang.',
-  //             confirmButtonText: `Kembali`,
-  //           }).then((_) => {
-  //           });
-  //         }
-  //       );
-  //   }
-  // }
+    this.uploadImages1();
+  }
+  uploadImages1(): void {
+    this.message = [];
 
+    if (this.selectedFiles) {
+      for (let i = 0; i < this.selectedFiles.length; i++) {
+        this.onSubmitImage1(i, this.selectedFiles[i]);
+      }
+    }
+  }
+  onSubmitImage1(idx: number, file: File): void {
+    this.progressInfos[idx] = { value: 0, fileName: file.name };
+
+    if (file) {
+      this.apiService.updatePembeliImage1(this.idqrcode, file).subscribe(
+        (event: any) => {
+          if (event.type === HttpEventType.UploadProgress) {
+            this.progressInfos[idx].value = Math.round(100 * event.loaded / event.total);
+          } else if (event instanceof HttpResponse) {
+            this.isLoading = false;
+            Swal.fire({
+              text: 'Foto berhasil di upload!',
+              confirmButtonText: `Kembali`,
+            })
+              .then((_) => {
+              });
+          }
+        },
+        (err: any) => {
+          this.progressInfos[idx].value = 0;
+          this.isLoading = false;
+          Swal.fire({
+            icon: 'error',
+            title: 'Terjadi Kesalahan',
+            text: 'Silahkan upload ulang.',
+            confirmButtonText: `Kembali`,
+          }).then((_) => {
+          });
+        });
+    }
+  }
+
+  onImageChange2(event: any): void {
+    this.isLoading = true;
+    this.message = [];
+    this.progressInfos = [];
+    this.selectedFiles = event.target.files;
+    const reader = new FileReader();
+    if (event.target.value) {
+      const [file] = event.target.files;
+      reader.readAsDataURL(file);
+      reader.onload = () => {
+        this.imgFile2 = reader.result as string;
+      };
+    }
+    this.uploadImages2();
+  }
+  uploadImages2(): void {
+    this.message = [];
+
+    if (this.selectedFiles) {
+      for (let i = 0; i < this.selectedFiles.length; i++) {
+        this.onSubmitImage2(i, this.selectedFiles[i]);
+      }
+    }
+  }
+  onSubmitImage2(idx: number, file: File): void {
+    this.progressInfos[idx] = { value: 0, fileName: file.name };
+
+    if (file) {
+      this.apiService.updatePembeliImage2(this.idqrcode, file).subscribe(
+        (event: any) => {
+          if (event.type === HttpEventType.UploadProgress) {
+            this.progressInfos[idx].value = Math.round(100 * event.loaded / event.total);
+          } else if (event instanceof HttpResponse) {
+            this.isLoading = false;
+            Swal.fire({
+              text: 'Foto berhasil di upload!',
+              confirmButtonText: `Kembali`,
+            })
+              .then((_) => {
+              });
+          }
+        },
+        (err: any) => {
+          this.progressInfos[idx].value = 0;
+          this.isLoading = false;
+          Swal.fire({
+            icon: 'error',
+            title: 'Terjadi Kesalahan',
+            text: 'Silahkan upload ulang.',
+            confirmButtonText: `Kembali`,
+          }).then((_) => {
+          });
+        });
+    }
+  }
+
+  onImageChange3(event: any): void {
+    this.isLoading = true;
+    this.message = [];
+    this.progressInfos = [];
+    this.selectedFiles = event.target.files;
+    const reader = new FileReader();
+    if (event.target.value) {
+      const [file] = event.target.files;
+      reader.readAsDataURL(file);
+      reader.onload = () => {
+        this.imgFile3 = reader.result as string;
+      };
+    }
+    this.uploadImages3();
+  }
+  uploadImages3(): void {
+    this.message = [];
+
+    if (this.selectedFiles) {
+      for (let i = 0; i < this.selectedFiles.length; i++) {
+        this.onSubmitImage3(i, this.selectedFiles[i]);
+      }
+    }
+  }
+  onSubmitImage3(idx: number, file: File): void {
+    this.progressInfos[idx] = { value: 0, fileName: file.name };
+
+    if (file) {
+      this.apiService.updatePembeliImage3(this.idqrcode, file).subscribe(
+        (event: any) => {
+          if (event.type === HttpEventType.UploadProgress) {
+            this.progressInfos[idx].value = Math.round(100 * event.loaded / event.total);
+          } else if (event instanceof HttpResponse) {
+            this.isLoading = false;
+            Swal.fire({
+              text: 'Foto berhasil di upload!',
+              confirmButtonText: `Kembali`,
+            })
+              .then((_) => {
+              });
+          }
+        },
+        (err: any) => {
+          this.progressInfos[idx].value = 0;
+          this.isLoading = false;
+          Swal.fire({
+            icon: 'error',
+            title: 'Terjadi Kesalahan',
+            text: 'Silahkan upload ulang.',
+            confirmButtonText: `Kembali`,
+          }).then((_) => {
+          });
+        });
+    }
+  }
+
+  onImageChange4(event: any): void {
+    this.isLoading = true;
+    this.message = [];
+    this.progressInfos = [];
+    this.selectedFiles = event.target.files;
+    const reader = new FileReader();
+    if (event.target.value) {
+      const [file] = event.target.files;
+      reader.readAsDataURL(file);
+      reader.onload = () => {
+        this.imgFile4 = reader.result as string;
+      };
+    }
+    this.uploadImages4();
+  }
+  uploadImages4(): void {
+    this.message = [];
+
+    if (this.selectedFiles) {
+      for (let i = 0; i < this.selectedFiles.length; i++) {
+        this.onSubmitImage4(i, this.selectedFiles[i]);
+      }
+    }
+  }
+  onSubmitImage4(idx: number, file: File): void {
+    this.progressInfos[idx] = { value: 0, fileName: file.name };
+
+    if (file) {
+      this.apiService.updatePembeliImage4(this.idqrcode, file).subscribe(
+        (event: any) => {
+          if (event.type === HttpEventType.UploadProgress) {
+            this.progressInfos[idx].value = Math.round(100 * event.loaded / event.total);
+          } else if (event instanceof HttpResponse) {
+            this.isLoading = false;
+            Swal.fire({
+              text: 'Foto berhasil di upload!',
+              confirmButtonText: `Kembali`,
+            })
+              .then((_) => {
+              });
+          }
+        },
+        (err: any) => {
+          this.progressInfos[idx].value = 0;
+          this.isLoading = false;
+          Swal.fire({
+            icon: 'error',
+            title: 'Terjadi Kesalahan',
+            text: 'Silahkan upload ulang.',
+            confirmButtonText: `Kembali`,
+          }).then((_) => {
+          });
+        });
+    }
+  }
+
+  onImageChange5(event: any): void {
+    this.isLoading = true;
+    this.message = [];
+    this.progressInfos = [];
+    this.selectedFiles = event.target.files;
+    const reader = new FileReader();
+    if (event.target.value) {
+      const [file] = event.target.files;
+      reader.readAsDataURL(file);
+      reader.onload = () => {
+        this.imgFile5 = reader.result as string;
+      };
+    }
+    this.uploadImages5();
+  }
+  uploadImages5(): void {
+    this.message = [];
+
+    if (this.selectedFiles) {
+      for (let i = 0; i < this.selectedFiles.length; i++) {
+        this.onSubmitImage5(i, this.selectedFiles[i]);
+      }
+    }
+  }
+  onSubmitImage5(idx: number, file: File): void {
+    this.progressInfos[idx] = { value: 0, fileName: file.name };
+
+    if (file) {
+      this.apiService.updatePembeliImage5(this.idqrcode, file).subscribe(
+        (event: any) => {
+          if (event.type === HttpEventType.UploadProgress) {
+            this.progressInfos[idx].value = Math.round(100 * event.loaded / event.total);
+          } else if (event instanceof HttpResponse) {
+            this.isLoading = false;
+            Swal.fire({
+              text: 'Foto berhasil di upload!',
+              confirmButtonText: `Kembali`,
+            })
+              .then((_) => {
+              });
+          }
+        },
+        (err: any) => {
+          this.progressInfos[idx].value = 0;
+          this.isLoading = false;
+          Swal.fire({
+            icon: 'error',
+            title: 'Terjadi Kesalahan',
+            text: 'Silahkan upload ulang.',
+            confirmButtonText: `Kembali`,
+          }).then((_) => {
+          });
+        });
+    }
+  }
+
+  onImageChange6(event: any): void {
+    this.isLoading = true;
+    this.message = [];
+    this.progressInfos = [];
+    this.selectedFiles = event.target.files;
+    const reader = new FileReader();
+    if (event.target.value) {
+      const [file] = event.target.files;
+      reader.readAsDataURL(file);
+      reader.onload = () => {
+        this.imgFile6 = reader.result as string;
+      };
+    }
+    this.uploadImages6();
+  }
+  uploadImages6(): void {
+    this.message = [];
+
+    if (this.selectedFiles) {
+      for (let i = 0; i < this.selectedFiles.length; i++) {
+        this.onSubmitImage6(i, this.selectedFiles[i]);
+      }
+    }
+  }
+  onSubmitImage6(idx: number, file: File): void {
+    this.progressInfos[idx] = { value: 0, fileName: file.name };
+
+    if (file) {
+      this.apiService.updatePembeliImage6(this.idqrcode, file).subscribe(
+        (event: any) => {
+          if (event.type === HttpEventType.UploadProgress) {
+            this.progressInfos[idx].value = Math.round(100 * event.loaded / event.total);
+          } else if (event instanceof HttpResponse) {
+            this.isLoading = false;
+            Swal.fire({
+              text: 'Foto berhasil di upload!',
+              confirmButtonText: `Kembali`,
+            })
+              .then((_) => {
+              });
+          }
+        },
+        (err: any) => {
+          this.progressInfos[idx].value = 0;
+          this.isLoading = false;
+          Swal.fire({
+            icon: 'error',
+            title: 'Terjadi Kesalahan',
+            text: 'Silahkan upload ulang.',
+            confirmButtonText: `Kembali`,
+          }).then((_) => {
+          });
+        });
+    }
+  }
   // onVideoChange(event: any): void {
   //   const reader = new FileReader();
   //   if (event.target.value) {
@@ -323,6 +576,7 @@ export class FormpembeliComponent implements OnInit {
     const merkmobil = formData.merk_mobil;
     const noinvoice = formData.no_invoice;
     const deskripsi = formData.deskripsi;
+    const instagram = formData.instagram;
 
     this.isSubmitted = true;
     this.isLoading = true;
@@ -332,7 +586,7 @@ export class FormpembeliComponent implements OnInit {
       return;
     }
 
-    this.apiService.updatePembeli(this.idqrcode, namapembeli, nomorpolisi, merkmobil, noinvoice, deskripsi)
+    this.apiService.updatePembeli(this.idqrcode, namapembeli, nomorpolisi, merkmobil, noinvoice, deskripsi, instagram)
       .subscribe(
         (res: any) => {
           this.isLoading = false;

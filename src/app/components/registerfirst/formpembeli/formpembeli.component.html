@@ -105,8 +105,12 @@
           'has-error': isSubmitted && formControls.no_invoice.errors
         }"
       >
-        <input class="form-control" formControlName="no_invoice" type="text" 
-        [textMask]="maskconfig2"/>
+        <input
+          class="form-control"
+          formControlName="no_invoice"
+          type="text"
+          [textMask]="maskconfig2"
+        />
       </p>
     </div>
     <div
@@ -138,12 +142,11 @@
       <label for="deskripsi">Foto <span>*</span></label>
       <p class="info">Maksimal 5 MB</p>
       <p class="info">
-        Pastikan box dan plat nomor kendaraan terlihat dengan jelas pada saat
+        Pastikan <strong>box</strong> dan <strong>plat nomor</strong> kendaraan terlihat dengan jelas pada saat
         pengambilan foto.
       </p>
-      <!-- <img class="image-preview" [src]="imgFile" *ngIf="imgFile" height="200" /> -->
 
-      <div *ngFor="let progressInfo of progressInfos" class="mb-2">
+      <!-- <div *ngFor="let progressInfo of progressInfos" class="mb-2">
         <span>{{ progressInfo.fileName }}</span>
         <div class="progress">
           <div
@@ -157,26 +160,189 @@
             {{ progressInfo.value }}%
           </div>
         </div>
-      </div>
+      </div> -->
 
+      <img
+        class="image-preview"
+        [src]="imgFile1"
+        *ngIf="imgFile1"
+        height="200"
+      />
       <div
+        *ngIf="!imgFile1"
         class="btn-upload upload-foto"
-        (click)="imagePicker.click()"
+        (click)="imagePicker1.click()"
         [ngClass]="{
           'has-error': isSubmitted && formControls.no_invoice.errors
         }"
       >
         Pilih Gambar
       </div>
+      <div
+        *ngIf="imgFile1"
+        class="btn-upload upload-foto"
+        (click)="imagePicker1.click()"
+      >
+        Ganti Gambar
+      </div>
+      <img
+        class="image-preview"
+        [src]="imgFile2"
+        *ngIf="imgFile2"
+        height="200"
+      />
+      <div
+        *ngIf="imgFile1 && !imgFile2"
+        class="btn-upload upload-foto"
+        (click)="imagePicker2.click()"
+      >
+        Tambah Gambar
+      </div>
+      <div
+        *ngIf="imgFile2"
+        class="btn-upload upload-foto"
+        (click)="imagePicker1.click()"
+      >
+        Ganti Gambar
+      </div>
+      <img
+        class="image-preview"
+        [src]="imgFile3"
+        *ngIf="imgFile3"
+        height="200"
+      />
+      <div
+        *ngIf="imgFile2 && !imgFile3"
+        class="btn-upload upload-foto"
+        (click)="imagePicker3.click()"
+      >
+        Tambah Gambar
+      </div>
+      <div
+        *ngIf="imgFile3"
+        class="btn-upload upload-foto"
+        (click)="imagePicker1.click()"
+      >
+        Ganti Gambar
+      </div>
+      <img
+        class="image-preview"
+        [src]="imgFile4"
+        *ngIf="imgFile4"
+        height="200"
+      />
+      <div
+        *ngIf="imgFile3 && !imgFile4"
+        class="btn-upload upload-foto"
+        (click)="imagePicker4.click()"
+      >
+        Tambah Gambar
+      </div>
+      <div
+        *ngIf="imgFile4"
+        class="btn-upload upload-foto"
+        (click)="imagePicker1.click()"
+      >
+        Ganti Gambar
+      </div>
+      <img
+        class="image-preview"
+        [src]="imgFile5"
+        *ngIf="imgFile5"
+        height="200"
+      />
+      <div
+        *ngIf="imgFile4 && !imgFile5"
+        class="btn-upload upload-foto"
+        (click)="imagePicker5.click()"
+      >
+        Tambah Gambar
+      </div>
+      <div
+        *ngIf="imgFile5"
+        class="btn-upload upload-foto"
+        (click)="imagePicker1.click()"
+      >
+        Ganti Gambar
+      </div>
+      <img
+        class="image-preview"
+        [src]="imgFile6"
+        *ngIf="imgFile6"
+        height="200"
+      />
+      <div
+        *ngIf="imgFile5 && !imgFile6"
+        class="btn-upload upload-foto"
+        (click)="imagePicker6.click()"
+      >
+        Tambah Gambar
+      </div>
+      <div
+        *ngIf="imgFile6"
+        class="btn-upload upload-foto"
+        (click)="imagePicker1.click()"
+      >
+        Ganti Gambar
+      </div>
       <input
-        #imagePicker
-        multiple 
+        #imagePicker1
         type="file"
         accept="image/x-png,image/gif,image/jpeg"
         class="form-control d-none"
         id="foto"
         formControlName="image"
-        (change)="onImageChange($event)"
+        (change)="onImageChange1($event)"
+      />
+      <input
+        #imagePicker2
+        multiple
+        type="file"
+        accept="image/x-png,image/gif,image/jpeg"
+        class="form-control d-none"
+        id="foto"
+        formControlName="image"
+        (change)="onImageChange2($event)"
+      />
+      <input
+        #imagePicker3
+        multiple
+        type="file"
+        accept="image/x-png,image/gif,image/jpeg"
+        class="form-control d-none"
+        id="foto"
+        formControlName="image"
+        (change)="onImageChange3($event)"
+      />
+      <input
+        #imagePicker4
+        multiple
+        type="file"
+        accept="image/x-png,image/gif,image/jpeg"
+        class="form-control d-none"
+        id="foto"
+        formControlName="image"
+        (change)="onImageChange4($event)"
+      />
+      <input
+        #imagePicker5
+        multiple
+        type="file"
+        accept="image/x-png,image/gif,image/jpeg"
+        class="form-control d-none"
+        id="foto"
+        formControlName="image"
+        (change)="onImageChange5($event)"
+      />
+      <input
+        #imagePicker6
+        multiple
+        type="file"
+        accept="image/x-png,image/gif,image/jpeg"
+        class="form-control d-none"
+        id="foto"
+        formControlName="image"
+        (change)="onImageChange6($event)"
       />
       <div
         *ngIf="
@@ -196,8 +362,8 @@
     </div> -->
 
     <div class="form-group">
-      <label for="video">Video</label>
-      <p class="info">Maksimal 10 MB</p>
+      <label for="video">Video </label>
+      <p class="info">Jika dibutuhkan, <em>upload</em> video berdurasi maks. 10 detik dengan ukuran maks. 20MB</p>
       <!-- <video
         class="video-preview"
         [src]="videoFile"
@@ -240,6 +406,16 @@
           Yoong Motor
         </p>
       </div>
+    </div>
+
+    <div class="form-group">
+      <label for="instagram">Link Instagram Video</label>
+      <input
+        class="form-control"
+        formControlName="instagram"
+        type="text"
+        maxlength="100"
+      />
     </div>
 
     <div *ngIf="isUnvalidated" class="alert alert-danger">

@@ -51,6 +51,8 @@ form p.info {
 
 form img.image-preview {
   margin-bottom: 20px;
+  margin-top: 20px;
+  height: 150px;
   display: inherit;
 }
 
@@ -76,6 +78,7 @@ form .btn-upload {
   display: inline-block;
   cursor: pointer;
   transition: 0.2s;
+  margin-right: 30px;
 }
 
 form .btn-upload:hover {
