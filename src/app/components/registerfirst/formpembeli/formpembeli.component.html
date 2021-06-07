@@ -140,7 +140,7 @@
 
     <div class="form-group">
       <label for="deskripsi">Foto <span>*</span></label>
-      <p class="info">Maksimal 5 MB</p>
+      <p class="info"><em>Upload</em> maks. 6 Foto dengan ukuran Maks. 5 MB tiap Foto</p>
       <p class="info">
         Pastikan <strong>box</strong> dan <strong>plat nomor</strong> kendaraan terlihat dengan jelas pada saat
         pengambilan foto.
@@ -399,17 +399,11 @@
         formControlName="video"
         (change)="onVideoChange($event)"
       />
-      <div class="info-video">
-        <span>*</span>
-        <p class="description">
-          Foto dan video akan digunakan untuk keperluan sosial media Osram dan
-          Yoong Motor
-        </p>
-      </div>
     </div>
 
     <div class="form-group">
       <label for="instagram">Link Instagram Video</label>
+      <p class="info">Silahkan masukan URL postingan apabila anda sudah <em>upload</em> di Instagram</p>
       <input
         class="form-control"
         formControlName="instagram"
@@ -417,6 +411,15 @@
         maxlength="100"
       />
     </div>
+
+    <div class="info-video">
+      <span>*</span>
+      <p class="description">
+        Foto dan video akan digunakan untuk keperluan sosial media Osram dan
+        Yoong Motor
+      </p>
+    </div>
+    
 
     <div *ngIf="isUnvalidated" class="alert alert-danger">
       Mohon inputkan kembali dengan benar.
