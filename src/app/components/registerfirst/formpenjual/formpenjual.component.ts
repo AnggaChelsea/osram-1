@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 import { ApiService } from 'src/app/shared/service/api.service';
 import Swal from 'sweetalert2';
 
@@ -9,7 +10,10 @@ import Swal from 'sweetalert2';
     templateUrl: './formpenjual.component.html',
     styleUrls: ['./formpenjual.component.scss']
 })
-export class FormPenjualComponent implements OnInit {
+export class FormPenjualComponent implements OnInit, OnDestroy {
+
+    subscription1!: Subscription;
+    subscription2!: Subscription;
 
     idqrcode: any;
     isUnvalidated = false;
@@ -30,13 +34,13 @@ export class FormPenjualComponent implements OnInit {
     ngOnInit(): void {
         this.isLoading = true;
         this.idqrcode = this.activatedRoute.snapshot.paramMap.get('idqrcode');
-        this.apiService.getPenjual(this.idqrcode).subscribe(
+        this.subscription1 = this.apiService.getPenjual(this.idqrcode).subscribe(
             (res: any) => {
                 console.log(res);
                 if (res.data.nama_bengkel !== '') {
                     this.router.navigate(['/welcome/' + res.data._idQrcode]);
                 }
-                this.apiService.getPembeli(res.data._idQrcode).subscribe((res2: any) => {
+                this.subscription2 = this.apiService.getPembeli(res.data._idQrcode).subscribe((res2: any) => {
                     if (res2.data.nama_pembeli !== '') {
                         this.router.navigate(['/welcome/' + res.data._idQrcode]);
                     }
@@ -113,4 +117,8 @@ export class FormPenjualComponent implements OnInit {
 
     }
 
+    ngOnDestroy(): void{
+        this.subscription1.unsubscribe();
+        this.subscription2.unsubscribe();
+    }
 }

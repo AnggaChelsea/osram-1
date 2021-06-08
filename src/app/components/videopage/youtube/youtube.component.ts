@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
-import { SwiperOptions } from 'swiper';
+import { Navigation, SwiperOptions } from 'swiper';
 import SwiperCore, { EffectFade, Pagination } from 'swiper/core';
 
-SwiperCore.use([EffectFade, Pagination]);
+SwiperCore.use([Navigation, EffectFade, Pagination]);
 
 @Component({
     selector: 'app-youtube',
@@ -17,6 +17,10 @@ export class YoutubeComponent implements OnInit {
         slidesPerView: 1,
         slidesPerColumn: 1,
         spaceBetween: 50,
+        navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
+          },
         pagination: {
             clickable: true,
             type: 'bullets',

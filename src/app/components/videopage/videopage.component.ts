@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { SwiperOptions } from 'swiper';
 import { ActivatedRoute, Router } from '@angular/router';
 import SwiperCore, { EffectFade, Pagination } from 'swiper/core';
 import { ApiService } from 'src/app/shared/service/api.service';
 import Swal from 'sweetalert2';
+import { Subscription } from 'rxjs';
 
 SwiperCore.use([EffectFade, Pagination]);
 
@@ -13,8 +14,8 @@ SwiperCore.use([EffectFade, Pagination]);
     styleUrls: ['./videopage.component.scss'],
 })
 
-export class VideopageComponent implements OnInit {
-
+export class VideopageComponent implements OnInit, OnDestroy {
+    subscription1!: Subscription;
     idqrcode: any;
     isUnvalidated = false;
     isLoading = false;
@@ -46,7 +47,7 @@ export class VideopageComponent implements OnInit {
     ngOnInit(): void {
         this.isLoading = true;
         this.idqrcode = this.activatedRoute.snapshot.paramMap.get('idqrcode');
-        this.apiService.getPembeli(this.idqrcode).subscribe(
+        this.subscription1 = this.apiService.getPembeli(this.idqrcode).subscribe(
             (res: any) => {
                 this.isLoading = false;
                 const data = res.data;
@@ -86,5 +87,8 @@ export class VideopageComponent implements OnInit {
 
     }
 
+    ngOnDestroy(): void {
+        this.subscription1.unsubscribe();
+    }
 
 }

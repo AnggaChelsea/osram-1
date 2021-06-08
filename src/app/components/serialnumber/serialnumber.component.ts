@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 import { ApiService } from 'src/app/shared/service/api.service';
 
 @Component({
@@ -8,7 +9,9 @@ import { ApiService } from 'src/app/shared/service/api.service';
   templateUrl: './serialnumber.component.html',
   styleUrls: ['./serialnumber.component.scss']
 })
-export class SerialnumberComponent implements OnInit {
+export class SerialnumberComponent implements OnInit, OnDestroy {
+
+  subscription1!: Subscription;
 
   isUnvalidated = false;
   isLoading = false;
@@ -56,7 +59,7 @@ export class SerialnumberComponent implements OnInit {
       this.isUnvalidated = true;
       return;
     }
-    this.apiService.validateQrcode(this.serialNumberForm.value).subscribe(
+    this.subscription1 = this.apiService.validateQrcode(this.serialNumberForm.value).subscribe(
       (res: any) => {
         this.isLoading = false;
         this.isUnvalidated = false;
@@ -67,6 +70,10 @@ export class SerialnumberComponent implements OnInit {
         this.isUnvalidated = true;
       }
     );
+  }
+
+  ngOnDestroy(): void{
+    this.subscription1.unsubscribe();
   }
 
 }

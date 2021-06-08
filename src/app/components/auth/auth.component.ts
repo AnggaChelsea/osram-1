@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AuthService } from './auth.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 
 @Component({
     selector: 'app-auth',
@@ -9,7 +10,9 @@ import { Router } from '@angular/router';
     styleUrls: ['./auth.component.scss'],
 })
 
-export class AuthComponent implements OnInit {
+export class AuthComponent implements OnInit, OnDestroy {
+
+    subscription!: Subscription;
     loginForm: any = FormGroup;
     isSubmitted = false;
     isUnvalidated = false;
@@ -51,7 +54,7 @@ export class AuthComponent implements OnInit {
             this.isLoading = false;
             return;
         }
-        this.authService.userValidate(this.loginForm.value).subscribe(
+        this.subscription = this.authService.userValidate(this.loginForm.value).subscribe(
             (res: any) => {
                 this.isLoading = false;
                 this.isUnvalidated = false;
@@ -65,5 +68,8 @@ export class AuthComponent implements OnInit {
         );
     }
 
+    ngOnDestroy(): void {
+        this.subscription.unsubscribe();
+    }
 
 }

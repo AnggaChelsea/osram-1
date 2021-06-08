@@ -1,9 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import * as kjua from 'kjua-svg';
 import jsPDF from 'jspdf';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ApiService } from '../../shared/service/api.service';
 import { ExcelService } from './excel.service';
+import { Subscription } from 'rxjs';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -11,7 +13,10 @@ import { ExcelService } from './excel.service';
   templateUrl: './qrcode.component.html',
   styleUrls: ['./qrcode.component.scss']
 })
-export class QrcodeComponent implements OnInit {
+export class QrcodeComponent implements OnInit, OnDestroy {
+
+  subscription!: Subscription;
+  subscription2!: Subscription;
 
   qrForm!: FormGroup;
   totalunprinted = 0;
@@ -46,10 +51,10 @@ export class QrcodeComponent implements OnInit {
       minVersion: 1,
       ecLevel: 'Q',
       size: sizes,
-      ratio: undefined,
+      ratio: null,
       fill: '#333333',
       back: '#ffffff',
-      text: `https://osram-1.vercel.app/${serialnumber}`,
+      text: `https://cbiprobiled.com/${serialnumber}`,
       // text: `https://cbiprobiled.com/${serialnumber}`,
       rounded: 0,
       quiet: 5,
@@ -66,10 +71,10 @@ export class QrcodeComponent implements OnInit {
     });
   }
 
-  constructor(private fb: FormBuilder, private apiService: ApiService, private excelService: ExcelService) { }
+  constructor(private fb: FormBuilder, private router: Router, private apiService: ApiService, private excelService: ExcelService) { }
 
   ngOnInit(): void {
-    this.apiService.getAllPembeli().subscribe(
+    this.subscription = this.apiService.getAllPembeli().subscribe(
       (res: any) => {
         const data = res.data;
         // tslint:disable-next-line:prefer-for-of
@@ -157,7 +162,8 @@ export class QrcodeComponent implements OnInit {
   }
 
   getAllunprinted(): void {
-    this.apiService.getAllunPrintQrcode().subscribe((res: any) => {
+    this.subscription2 = this.apiService.getAllunPrintQrcode().subscribe(
+      (res: any) => {
       this.totalunprinted = res.data.length;
       console.log(this.totalunprinted);
     },
@@ -235,6 +241,16 @@ export class QrcodeComponent implements OnInit {
   exportAsXLSX(): void {
     console.log(this.excel);
     this.excelService.exportAsExcelFile(this.excel, 'osram-excel');
+  }
+
+  logout(): void{
+    localStorage.removeItem('ACCESS_TOKEN');
+    this.router.navigateByUrl('/admin');
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
+    this.subscription2.unsubscribe();
   }
 
 }

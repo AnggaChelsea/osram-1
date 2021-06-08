@@ -1,10 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ApiService } from 'src/app/shared/service/api.service';
 import { mimeType } from './mime-type.validator';
 import Swal from 'sweetalert2';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { HttpEventType, HttpResponse } from '@angular/common/http';
 
 // declare const $: any;
@@ -14,7 +14,8 @@ import { HttpEventType, HttpResponse } from '@angular/common/http';
   templateUrl: './formpembeli.component.html',
   styleUrls: ['./formpembeli.component.scss']
 })
-export class FormpembeliComponent implements OnInit {
+export class FormpembeliComponent implements OnInit, OnDestroy {
+  subscription1!: Subscription;
 
   idqrcode: any;
   isUnvalidated = false;
@@ -66,7 +67,7 @@ export class FormpembeliComponent implements OnInit {
     this.idqrcode = this.activatedRoute.snapshot.paramMap.get('idqrcode');
     this.fileInfos = this.apiService.getPembeliImage(this.idqrcode);
 
-    this.apiService.getPembeli(this.idqrcode).subscribe(
+    this.subscription1 = this.apiService.getPembeli(this.idqrcode).subscribe(
       (res: any) => {
         this.isLoading = false;
         const data = res.data;
@@ -617,4 +618,9 @@ export class FormpembeliComponent implements OnInit {
         }
       );
   }
+
+  ngOnDestroy(): void{
+    this.subscription1.unsubscribe();
+  }
+
 }
